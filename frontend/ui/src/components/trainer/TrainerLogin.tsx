@@ -5,16 +5,34 @@ import { useNavigate } from 'react-router';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { useAuth } from '../../hooks/useAuth';
+import { toast } from 'sonner';
 
 export function TrainerLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login, loading, error } = useAuth();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock authentication - in real app would validate credentials
-    navigate('/trainer/dashboard');
+    
+    if (!email || !password) {
+      toast.error('Please enter email and password');
+      return;
+    }
+
+    try {
+      const user = await login(email, password);
+      if (user.role === 'trainer') {
+        toast.success('Login successful!');
+        navigate('/trainer/dashboard');
+      } else {
+        toast.error('This account is not a trainer account');
+      }
+    } catch (err) {
+      toast.error(error || 'Login failed. Please check your credentials.');
+    }
   };
 
   return (
@@ -76,9 +94,10 @@ export function TrainerLogin() {
 
               <Button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12"
+                disabled={loading}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 disabled:opacity-50"
               >
-                Access Command Center
+                {loading ? 'Logging in...' : 'Access Command Center'}
               </Button>
             </form>
 

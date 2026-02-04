@@ -5,16 +5,34 @@ import { useNavigate } from 'react-router';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { useAuth } from '../../hooks/useAuth';
+import { toast } from 'sonner';
 
 export function TraineeLogin() {
-  const [traineeId, setTraineeId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login, loading, error } = useAuth();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock authentication
-    navigate('/trainee/home');
+    
+    if (!email || !password) {
+      toast.error('Please enter email and password');
+      return;
+    }
+
+    try {
+      const user = await login(email, password);
+      if (user.role === 'trainee') {
+        toast.success('Login successful!');
+        navigate('/trainee/home');
+      } else {
+        toast.error('This account is not a trainee account');
+      }
+    } catch (err) {
+      toast.error(error || 'Login failed. Please check your credentials.');
+    }
   };
 
   return (
@@ -42,13 +60,13 @@ export function TraineeLogin() {
           <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-8 shadow-2xl">
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="traineeId" className="text-slate-300">Trainee ID</Label>
+                <Label htmlFor="email" className="text-slate-300">Email</Label>
                 <Input
-                  id="traineeId"
-                  type="text"
-                  placeholder="Enter your ID"
-                  value={traineeId}
-                  onChange={(e) => setTraineeId(e.target.value)}
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="bg-slate-800/50 border-slate-700 text-slate-100 placeholder:text-slate-500 h-12 text-base"
                   required
                 />
@@ -76,9 +94,10 @@ export function TraineeLogin() {
 
               <Button
                 type="submit"
-                className="w-full bg-cyan-600 hover:bg-cyan-700 text-white h-12 text-base"
+                disabled={loading}
+                className="w-full bg-cyan-600 hover:bg-cyan-700 text-white h-12 text-base disabled:opacity-50"
               >
-                Access Training Session
+                {loading ? 'Logging in...' : 'Access Training Session'}
               </Button>
             </form>
 
