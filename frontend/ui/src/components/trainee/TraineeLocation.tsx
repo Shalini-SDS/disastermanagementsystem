@@ -72,6 +72,8 @@ export function TraineeLocation() {
   };
 
   const coords = getCoordinates();
+
+  return (
     <TraineeLayout title="Location & Status" disasterType="flood" showBack>
       <div className="space-y-4">
         {/* Map View */}
