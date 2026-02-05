@@ -11,5 +11,17 @@ class Config:
     PORT = int(os.getenv("PORT", 5000))
 
 # Initialize MongoDB client
-client = MongoClient(Config.MONGO_URI)
-db = client.get_database() # Uses database name from URI or default
+client = MongoClient(Config.MONGO_URI, serverSelectionTimeoutMS=5000)
+try:
+    # Try to get the database from the URI
+    db = client.get_database()
+except Exception:
+    # Fallback to 'disaster_db' if no database is specified in URI
+    db = client['disaster_db']
+
+# Verify connection
+try:
+    client.server_info()
+    print("Connected to MongoDB successfully")
+except Exception as e:
+    print(f"Warning: Could not connect to MongoDB. Make sure it is running at {Config.MONGO_URI}")

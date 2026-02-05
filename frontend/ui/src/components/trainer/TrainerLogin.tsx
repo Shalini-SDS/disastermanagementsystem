@@ -101,6 +101,15 @@ export function TrainerLogin() {
               </Button>
             </form>
 
+            <div className="mt-6 text-center">
+              <p className="text-sm text-slate-400">
+                Don't have an account?{' '}
+                <a href="/signup" className="text-blue-400 hover:text-blue-300 font-medium">
+                  Sign up
+                </a>
+              </p>
+            </div>
+
             {/* Demo Credentials */}
             <div className="mt-6 p-4 bg-slate-800/50 border border-slate-700/50 rounded-lg">
               <div className="flex items-start gap-2 mb-2">

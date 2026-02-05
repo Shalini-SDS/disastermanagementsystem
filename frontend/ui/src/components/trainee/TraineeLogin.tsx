@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Users, Lock, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -100,6 +100,15 @@ export function TraineeLogin() {
                 {loading ? 'Logging in...' : 'Access Training Session'}
               </Button>
             </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-slate-400">
+                Don't have an account?{' '}
+                <Link to="/signup" className="text-cyan-400 hover:text-cyan-300 font-medium">
+                  Sign up
+                </Link>
+              </p>
+            </div>
 
             {/* Demo Info */}
             <div className="mt-6 p-4 bg-slate-800/50 border border-slate-700/50 rounded-lg">

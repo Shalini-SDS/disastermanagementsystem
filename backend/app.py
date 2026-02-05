@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 # Enable Cross-Origin Resource Sharing (CORS) for frontend integration
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, supports_credentials=True)
 
 # Initialize WebSocket support
 socketio = SocketIO(app, cors_allowed_origins="*")

@@ -56,6 +56,38 @@ export function useAuth() {
     }
   }, []);
 
+  const signup = useCallback(async (name: string, email: string, password: string, role: string) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await apiService.signup(name, email, password, role);
+
+      if (response.success && response.data) {
+        const userData: User = {
+          user_id: response.data.user_id,
+          email,
+          name,
+          role: response.data.role,
+        };
+
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('userId', userData.user_id);
+
+        return userData;
+      } else {
+        throw new Error(response.message || 'Signup failed');
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Signup failed';
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const logout = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -78,6 +110,7 @@ export function useAuth() {
     loading,
     error,
     login,
+    signup,
     logout,
     isAuthenticated: !!user,
   };

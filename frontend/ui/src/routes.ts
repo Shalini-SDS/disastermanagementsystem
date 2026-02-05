@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import { RoleSelection } from "./components/RoleSelection";
+import { Signup } from "./components/Signup";
 import { TrainerLogin } from "./components/trainer/TrainerLogin";
 import { TrainerDashboard } from "./components/trainer/TrainerDashboard";
 import { TrainerMonitoring } from "./components/trainer/TrainerMonitoring";
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
   {
     path: "/",
     Component: RoleSelection,
+  },
+  {
+    path: "/signup",
+    Component: Signup,
   },
   {
     path: "/trainer/login",

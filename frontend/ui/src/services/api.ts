@@ -48,6 +48,13 @@ class ApiService {
     });
   }
 
+  async signup(name: string, email: string, password: string, role: string) {
+    return this.request('/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password, role }),
+    });
+  }
+
   async logout() {
     return this.request('/auth/logout', {
       method: 'POST',
