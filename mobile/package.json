@@ -1,0 +1,46 @@
+{
+  "name": "disaster-management-mobile",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build": "eas build",
+    "preview": "expo preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@react-navigation/bottom-tabs": "^6.5.11",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
+    "axios": "^1.6.2",
+    "expo": "^54.0.0",
+    "expo-async-storage": "^1.0.0",
+    "expo-barcode-scanner": "^15.0.0",
+    "expo-camera": "^19.0.0",
+    "expo-clipboard": "^6.0.0",
+    "expo-constants": "^17.0.0",
+    "expo-location": "^18.0.0",
+    "expo-router": "^4.0.0",
+    "expo-status-bar": "^2.0.0",
+    "lucide-react-native": "^0.344.0",
+    "react": "^18.2.0",
+    "react-hook-form": "^7.48.0",
+    "react-native": "^0.76.0",
+    "react-native-async-storage": "^1.0.0",
+    "react-native-gesture-handler": "^2.14.1",
+    "react-native-reanimated": "^3.6.0",
+    "react-native-safe-area-context": "^4.8.2",
+    "react-native-screens": "^3.27.0",
+    "socket.io-client": "^4.7.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-native": "^0.76.0",
+    "typescript": "^5.2.2"
+  },
+  "private": true
+}

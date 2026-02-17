@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from models.session_model import SessionModel
 from utils.response import api_response
+import json
 
 session_bp = Blueprint('sessions', __name__)
 
@@ -40,3 +41,51 @@ def get_sessions_by_trainer(trainer_id):
         session['_id'] = str(session['_id'])
     
     return api_response(True, f"Sessions for trainer {trainer_id} fetched", sessions)
+
+@session_bp.route('/sessions/verify-qr', methods=['POST'])
+def verify_qr_code():
+    """Verify QR code scanned by trainee"""
+    try:
+        data = request.get_json()
+        qr_data = data.get('qrData')
+        
+        if not qr_data:
+            return api_response(False, "QR code data is required", status_code=400)
+        
+        # Parse QR data if it's JSON
+        session_id = None
+        if isinstance(qr_data, dict) and 'session_id' in qr_data:
+            session_id = qr_data.get('session_id')
+        elif isinstance(qr_data, str):
+            # Try to parse as JSON first
+            try:
+                parsed = json.loads(qr_data)
+                session_id = parsed.get('session_id')
+            except:
+                # If not JSON, treat as session ID directly
+                session_id = qr_data
+        
+        if not session_id:
+            return api_response(False, "Invalid QR code format", status_code=400)
+        
+        # Verify session exists
+        session = SessionModel.get_session_by_id(session_id)
+        if not session:
+            return api_response(False, "Session not found", status_code=404)
+        
+        # Check if session is active
+        if session.get('status') != 'active':
+            return api_response(False, "Session is not active", status_code=400)
+        
+        return api_response(
+            True, 
+            "QR code verified successfully", 
+            {
+                "session_id": str(session.get('_id')),
+                "session_name": session.get('session_name'),
+                "trainer_id": session.get('trainer_id')
+            }
+        )
+    
+    except Exception as e:
+        return api_response(False, f"Error verifying QR code: {str(e)}", status_code=500)

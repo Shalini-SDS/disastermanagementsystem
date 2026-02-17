@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from config import db
+from config import get_database
 from utils.response import api_response
 from datetime import datetime
 
@@ -7,6 +7,7 @@ tracking_bp = Blueprint('tracking', __name__)
 
 @tracking_bp.route('/track-location', methods=['POST'])
 def track_location():
+    db = get_database()
     data = request.get_json()
     trainee_id = data.get('trainee_id')
     latitude = data.get('latitude')
@@ -29,6 +30,7 @@ def track_location():
 
 @tracking_bp.route('/sync-data', methods=['POST'])
 def sync_data():
+    db = get_database()
     data = request.get_json()
     logs = data.get('logs', []) # Array of tracking logs
 

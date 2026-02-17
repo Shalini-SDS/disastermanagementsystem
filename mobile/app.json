@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Disaster Management",
+    "slug": "disaster-management",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTabletMode": false,
+      "requireFullScreen": true,
+      "bundleIdentifier": "com.disastermgmt.app"
+    },
+    "android": {
+      "package": "com.disastermgmt.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FF6B35"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermissions": "Allow DisasterMgmt to access your location."
+        }
+      ]
+    ],
+    "scheme": "disastermgmt"
+  }
+}
